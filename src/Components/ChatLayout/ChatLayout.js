@@ -3,7 +3,7 @@ import './ChatLayout.scss';
 import streamSaver from 'streamsaver'
 import {IonHeader, IonToolbar, IonTitle, IonContent, IonGrid,IonRow, IonCol, IonFooter, IonButton, IonIcon, IonPage, IonButtons} from "@ionic/react";
 import TextareaAutosize from 'react-autosize-textarea';
-import {sendSharp, videocamSharp, callSharp, documentSharp, desktopSharp, folderSharp, push} from "ionicons/icons";
+import {sendSharp, videocamSharp, callSharp, documentSharp, desktopSharp, folderSharp} from "ionicons/icons";
 
 
 class ChatLayout extends Component  {

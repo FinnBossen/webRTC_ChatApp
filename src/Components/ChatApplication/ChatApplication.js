@@ -1,11 +1,10 @@
-import React,{Component} from 'react';
+import React, {Component} from 'react';
 import './ChatApplication.css'
 import UserLayout from "../UserLayout/UserLayout";
 import ChatLayout from "../ChatLayout/ChatLayout";
-import {IonApp, IonButton, IonIcon, IonPage, IonRow} from "@ionic/react"
+import {IonApp, IonPage} from "@ionic/react"
 import CallWindow from "../CallWindow/CallWindow";
 import LoginWindow from "../LoginWindow/LoginWindow";
-
 
 class ChatApplication extends Component {
 
@@ -16,7 +15,7 @@ class ChatApplication extends Component {
             users: props.users,
             showCallWindow: false,
             currentUser: '',
-            didLogin:false,
+            didLogin: false,
             streams: [],
             newMsg: '',
             targetUser: '',
@@ -29,38 +28,34 @@ class ChatApplication extends Component {
     }
 
     componentDidMount() {
-
-        const MyName =   document.getElementById("MyNameID");
-        MyName.style.color="black";
-
-
+        const MyName = document.getElementById("MyNameID");
+        MyName.style.color = "black";
     }
 
     componentWillReceiveProps(nextProps) {
-            this.setState({       users: nextProps.users });
-
+        this.setState({users: nextProps.users});
     }
+
     componentWillUnmount() {
-
-        const MyName =   document.getElementById("MyNameID");
-       MyName.style.color="white";
-
+        const MyName = document.getElementById("MyNameID");
+        MyName.style.color = "white";
     }
-    acceptCall = () =>{
+
+    acceptCall = () => {
         this.setState({
             showCallWindow: true
         })
     }
-    switchCallWindow = (audio = true, video = true, screenShare = false, opener = false) =>{
-            this.setState(prevState => ({
-                showCallWindow: !prevState.showCallWindow,
-                audioCall: audio,
-                videoCall: video,
-                screenShareCall: screenShare,
-                isOpener: opener,
-            }))
+    switchCallWindow = (audio = true, video = true, screenShare = false, opener = false) => {
+        this.setState(prevState => ({
+            showCallWindow: !prevState.showCallWindow,
+            audioCall: audio,
+            videoCall: video,
+            screenShareCall: screenShare,
+            isOpener: opener,
+        }))
     };
-    hangUpCall = (user = '',initialize = false) => {
+    hangUpCall = (user = '', initialize = false) => {
         this.setState({
             showCallWindow: false,
             audioCall: true,
@@ -68,14 +63,14 @@ class ChatApplication extends Component {
             screenShareCall: false,
             isOpener: false
         })
-        if(initialize){
+        if (initialize) {
             this.props.sendMessage({
-                type : 'hangUpCall'
-            },user)
+                type: 'hangUpCall'
+            }, user)
         }
     }
     diLogin = (loginName = '') => {
-        if(!this.state.didLogin){
+        if (!this.state.didLogin) {
             this.props.activateWebRTC(loginName);
         }
         this.setState(
@@ -90,28 +85,13 @@ class ChatApplication extends Component {
             targetUser: user
         })
     }
-    newWebRTCMessage(message){
-        this.setState({
-            newMsg: message
-        })
-    }
-    newWebRTCStream(stream){
-        this.setState(prevState => ({
-            streams: prevState.streams.add(stream)
-        }))
-    }
-    removeWebRTCStream(stream){
-        this.setState(prevState => ({
-            streams: prevState.streams.remove(prevState.streams.indexOf(stream))
-        }))
-    }
+
     render() {
         return (
             <IonApp>
                 <IonPage>
                     <div className="chatApplication">
                         <div className="chatBox">
-
                             {this.state.didLogin ? <React.Fragment><UserLayout ref={this.props.setRefUsers}
                                                                                changeTargetUser={this.changeTargetUser}
                                                                                targetUser={this.state.targetUser}
@@ -129,9 +109,13 @@ class ChatApplication extends Component {
                 </IonPage>
                 {
                     this.state.showCallWindow &&
-                    <CallWindow ref={this.props.setRefCallWindow } acceptedCall={this.props.acceptedCall} replaceTrack={this.props.replaceTrack} audio={this.state.audioCall} video={this.state.videoCall} screenShare={this.state.screenShareCall} targetUser={this.state.targetUser} hangUpCall={this.hangUpCall} stream={this.state.streams} isOpener={this.state.isOpener} addTrack={this.props.addTrack}/>
+                    <CallWindow ref={this.props.setRefCallWindow} acceptedCall={this.props.acceptedCall}
+                                replaceTrack={this.props.replaceTrack} audio={this.state.audioCall}
+                                video={this.state.videoCall} screenShare={this.state.screenShareCall}
+                                targetUser={this.state.targetUser} hangUpCall={this.hangUpCall}
+                                stream={this.state.streams} isOpener={this.state.isOpener}
+                                addTrack={this.props.addTrack}/>
                 }
-
             </IonApp>
 
         );

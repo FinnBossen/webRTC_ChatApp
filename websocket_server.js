@@ -7,12 +7,12 @@ var wss = new WebSocketServer({port: 9090});
 //all connected to the server users
 var users = {};
 //when a user connects to our sever
-wss.on('connection', function(connection) {
+wss.on('connection', function (connection) {
 
     console.log('User connected');
 
     //when server gets a message from a connected user
-    connection.on('message', function(message) {
+    connection.on('message', function (message) {
 
         var data;
         //accepting only JSON messages
@@ -28,17 +28,16 @@ wss.on('connection', function(connection) {
             //when a user tries to login
 
             case 'login':
-                console.log('User logged'+ data.name);
+                console.log('User logged' + data.name);
 
                 //if anyone is logged in with this username then refuse
-                if(users[data.name]) {
+                if (users[data.name]) {
                     sendTo(connection, {
                         type: 'login',
                         success: false,
                         name: data.name
                     });
                 } else {
-                    //save user connection on the server
                     sendTo(connection, {
                         type: 'login',
                         success: true,
@@ -55,14 +54,11 @@ wss.on('connection', function(connection) {
                 break;
 
             case 'description':
-                //for ex. UserA wants to call UserB
                 console.log('Sending offer to: ', data.name);
 
-                //if UserB exists then send him offer details
                 var conn = users[data.name];
 
-                if(conn != null) {
-                    //setting that UserA connected with UserB
+                if (conn != null) {
                     connection.otherName = data.name;
 
                     sendTo(conn, {
@@ -77,10 +73,9 @@ wss.on('connection', function(connection) {
 
             case 'answer':
                 console.log('Sending answer to: ', data.name);
-                //for ex. UserB answers UserA
                 var conn = users[data.name];
 
-                if(conn != null) {
+                if (conn != null) {
                     connection.otherName = data.name;
                     sendTo(conn, {
                         type: 'answer',
@@ -92,10 +87,10 @@ wss.on('connection', function(connection) {
                 break;
 
             case 'candidate':
-                console.log('Sending candidate to:',data.name);
+                console.log('Sending candidate to:', data.name);
                 var conn = users[data.name];
 
-                if(conn != null) {
+                if (conn != null) {
                     sendTo(conn, {
                         type: 'candidate',
                         candidate: data.candidate,
@@ -108,15 +103,15 @@ wss.on('connection', function(connection) {
             case 'leave':
                 console.log('Disconnecting from', data.name);
                 var conn = users[data.name];
-                if(conn.otherName){
+                if (conn.otherName) {
                     conn.otherName = null;
                 }
-                if(users[data.name]){
+                if (users[data.name]) {
                     delete users[data.name]
                 }
 
                 //notify the other user so he can disconnect his peer connection
-                if(conn) {
+                if (conn) {
                     sendTo(conn, {
                         type: 'leave',
                         name: data.name
@@ -135,12 +130,11 @@ wss.on('connection', function(connection) {
         }
     });
 
-    //when user exits, for example closes a browser window
-    //this may help if we are still in "offer","answer" or "candidate" state
-    connection.on('close', function() {
+    //when user exits (closes Browser)
+    connection.on('close', function () {
 
-        if(connection.name) {
-            if(users[connection.name]){
+        if (connection.name) {
+            if (users[connection.name]) {
                 delete users[connection.name]
             }
             sendToAll({
