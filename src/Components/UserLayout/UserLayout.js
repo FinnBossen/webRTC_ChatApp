@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
 import './UserLayout.scss';
-import {IonContent, IonHeader, IonTitle, IonToolbar, IonPage, IonCard, IonItem, IonAvatar, IonLabel, IonVirtualScroll, IonSearchbar, IonList} from "@ionic/react";
+import {IonContent, IonHeader, IonToolbar, IonPage, IonItem, IonAvatar, IonLabel, IonSearchbar, IonList} from "@ionic/react";
 
 class UserLayout extends Component {
     currentUser = 'simon';
 
     items = [];
     users = [];
-    changedColorItem = null;
     constructor(props) {
         super(props);
         const usersRaw = [];

@@ -88,7 +88,7 @@ class WebRTCChatAppContainer extends Component {
                         break;
                 }
             } catch (e) {
-
+                console.log('Error',e)
             }
 
         };
@@ -228,6 +228,8 @@ class WebRTCChatAppContainer extends Component {
                         break;
                     case "closed":
                         console.log('peerConnection is closed')
+                        break;
+                    default:
                         break;
                 }
             }
