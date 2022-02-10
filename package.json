@@ -7,7 +7,7 @@
     "@tensorflow/tfjs": "^1.7.1",
     "cra-template": "1.0.2",
     "ionicons": "^5.0.1",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "re-resizable": "^6.3.2",
     "react": "^16.13.0",
     "react-autosize-textarea": "^7.0.0",
